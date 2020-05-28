@@ -1,18 +1,18 @@
 #-----compute/main.tf
 
-data "aws_ami" "server_ami" {
-  most_recent = true
-
-  filter {
-    name   = "owner-alias"
-    values = ["amazon"]
-  }
-
-  filter {
-    name   = "name"
-    values = ["amzn-ami-hvm*-x86_64-gp2"]
-  }
-}
+#data "aws_ami" "server_ami" {
+#  most_recent = true
+#
+#  filter {
+#    name   = "owner-alias"
+#    values = ["amazon"]
+#  }
+#
+#  filter {
+#    name   = "name"
+#    values = ["amzn-ami-hvm*-x86_64-gp2"]
+#  }
+#}
 
 resource "aws_key_pair" "tf_auth" {
   key_name   = "${var.key_name}"
@@ -35,7 +35,7 @@ vars {
 resource "aws_instance" "tf_server" {
   count         = "${var.instance_count}"
   instance_type = "${var.instance_type}"
-  ami           = "${data.aws_ami.server_ami.id}"
+  ami           = "${var.aws_ami}"
 
   tags {
     Name = "tf_server-${count.index +1}"
@@ -49,7 +49,7 @@ resource "aws_instance" "tf_server" {
 
 resource "aws_instance" "tf_bastion" {
   instance_type = "${var.instance_type}"
-  ami           = "${data.aws_ami.server_ami.id}"
+  ami           = "${var.aws_ami}"
 
   tags {
     Name = "tf_bastion"

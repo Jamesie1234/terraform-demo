@@ -33,7 +33,7 @@ module "networking" {
 
 module "compute" {
   source          = "./compute"
-  owners          = "${data.aws_ami.server_ami.id}"
+  aws_ami          = "${var.aws_ami}"
   instance_count  = "${var.instance_count}"
   key_name        = "${var.key_name}"
   public_key_path = "${var.public_key_path}"
